@@ -56,7 +56,7 @@ Currently tested using:
 ## Features (Current)
 
 - REST APIs for automotive system
-- Database integration with MySQL
+- Database integration with PostgreSQL
 
 ---
 
@@ -71,4 +71,4 @@ Currently tested using:
 
 ## Author
 
-Your Name
+Neeraj1684

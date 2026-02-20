@@ -9,5 +9,5 @@ import java.util.Optional;
 public interface CustomerProfileRepository extends JpaRepository<CustomerProfile, Long> {
 
     // this is used for fetching logged_in customer
-    Optional<CustomerProfile> findById(Long userId);
+    Optional<CustomerProfile> findByUserId(Long userId);
 }

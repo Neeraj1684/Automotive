@@ -1,6 +1,8 @@
 package com.neeraj.AutomotiveBackend.auth;
 
 import com.neeraj.AutomotiveBackend.config.JwtService;
+import com.neeraj.AutomotiveBackend.customer.CustomerProfile;
+import com.neeraj.AutomotiveBackend.customer.CustomerProfileRepository;
 import com.neeraj.AutomotiveBackend.dto.AuthResponse;
 import com.neeraj.AutomotiveBackend.dto.LoginRequest;
 import com.neeraj.AutomotiveBackend.dto.RegisterRequest;
@@ -17,6 +19,7 @@ import org.springframework.security.core.userdetails.User;
 public class AuthService {
 
     private final UserRepository userRepository;
+    private final CustomerProfileRepository customerProfileRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
@@ -30,7 +33,18 @@ public class AuthService {
                         .role(Role.CUSTOMER)
                         .build();
 
-        userRepository.save(userEntity);
+        com.neeraj.AutomotiveBackend.auth.User savedUser = userRepository.save(userEntity);
+
+        if(savedUser.getRole() == Role.CUSTOMER){
+            CustomerProfile profile = CustomerProfile.builder()
+                    .firstName(request.getFirstName())
+                    .lastName(request.getLastName())
+                    .phone(request.getPhone())
+                    .user(savedUser)
+                    .build();
+
+            customerProfileRepository.save(profile);
+        }
 
         UserDetails userDetails = User.builder()
                 .username(userEntity.getEmail())

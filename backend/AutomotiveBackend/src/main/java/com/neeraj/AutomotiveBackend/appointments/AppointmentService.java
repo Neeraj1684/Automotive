@@ -90,7 +90,7 @@ public class AppointmentService {
         return appointmentRepository.save(existing);
     }
 
-    public Appointment cancelAppointment(@PathVariable Long id){
+    public Appointment cancelAppointment(Long id){
         CustomerProfile profile = getCurrentProfile();
 
         Appointment appointment = appointmentRepository.findById(id)

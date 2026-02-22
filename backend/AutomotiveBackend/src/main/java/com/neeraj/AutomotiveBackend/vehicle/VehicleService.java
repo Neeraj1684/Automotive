@@ -63,6 +63,15 @@ public class VehicleService {
     }
 
     public void deleteVehicle(Long id){
-        vehicleRepository.deleteById(id);
+        CustomerProfile profile = getCurrentProfile();
+
+        Vehicle vehicle = vehicleRepository.findById(id)
+                        .orElseThrow(()->new RuntimeException("Vehicle not found"));
+
+        if(!vehicle.getCustomer().getId().equals(profile.getId())){
+            throw new RuntimeException("This vehicle does not belong to you");
+        }
+
+        vehicleRepository.delete(vehicle);
     }
 }

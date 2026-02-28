@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
     List<Vehicle> findByCustomerId(Long customerId);
+    long countByCustomerId(Long customerID);
 }

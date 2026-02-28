@@ -1,6 +1,5 @@
 package com.neeraj.AutomotiveBackend.appointments;
 
-import com.neeraj.AutomotiveBackend.dto.AppointmentRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

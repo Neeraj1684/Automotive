@@ -1,4 +1,4 @@
-package com.neeraj.AutomotiveBackend.dto;
+package com.neeraj.AutomotiveBackend.appointments;
 
 import lombok.Data;
 

@@ -5,14 +5,13 @@ import com.neeraj.AutomotiveBackend.auth.User;
 import com.neeraj.AutomotiveBackend.auth.UserRepository;
 import com.neeraj.AutomotiveBackend.customer.CustomerProfile;
 import com.neeraj.AutomotiveBackend.customer.CustomerProfileRepository;
-import com.neeraj.AutomotiveBackend.dto.AppointmentRequest;
 import com.neeraj.AutomotiveBackend.vehicle.Vehicle;
 import com.neeraj.AutomotiveBackend.vehicle.VehicleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -45,6 +44,21 @@ public class AppointmentService {
 
         if(!vehicle.getCustomer().getId().equals(profile.getId())){
             throw new RuntimeException("This vehicle does not belong to you");
+        }
+
+        if(request.getAppointmentDate().isBefore(LocalDate.now())){
+            throw new RuntimeException("Appointment date cannot be in past");
+        }
+
+        boolean alreadyBooked = appointmentRepository
+                .existsByVehicleIdAndAppointmentDateAndStatus(
+                        request.getVehicleId(),
+                        request.getAppointmentDate(),
+                        AppointmentStatus.BOOKED
+                );
+
+        if (alreadyBooked) {
+            throw new RuntimeException("This vehicle already has an appointment on this date");
         }
 
         Appointment appointment = Appointment.builder()
